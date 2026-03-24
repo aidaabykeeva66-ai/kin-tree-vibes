@@ -46,7 +46,7 @@ const CollaborationSection = () => {
             <span className="font-semibold">Бабушка</span> добавила 4 фото в альбом «Лето 1985»
           </div>
           <div className="bg-accent/50 rounded-xl p-4 text-sm text-foreground">
-            <span className="font-semibold">Алгус</span> связал ветки родства Тарабаевых
+            <span className="font-semibold">Азамат</span> связал ветки родства Темирбаевых
           </div>
           <div className="bg-accent/50 rounded-xl p-4 text-sm text-foreground">
             <span className="font-semibold">Токжан</span> загрузил 10 видео с поездки на юг
