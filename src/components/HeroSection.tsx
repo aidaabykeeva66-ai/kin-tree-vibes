@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import heroTree from "@/assets/hero-tree.png";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="pt-28 pb-16 md:pt-36 md:pb-24" style={{ background: "var(--hero-gradient)" }}>
       <div className="container grid md:grid-cols-2 gap-12 items-center">
@@ -13,7 +16,7 @@ const HeroSection = () => {
             Добавляйте родственников, даже если знаете только имя. Начните с малого, а детали заполните позже.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button variant="hero" size="lg">Начать бесплатно</Button>
+            <Button variant="hero" size="lg" onClick={() => navigate("/register")}>Начать бесплатно</Button>
             <Button variant="hero-outline" size="lg" onClick={() => document.getElementById('views')?.scrollIntoView({ behavior: 'smooth' })}>Посмотреть пример</Button>
           </div>
         </div>

@@ -9,10 +9,10 @@ const Footer = () => {
           <span className="font-display font-bold text-foreground">KinTree</span>
         </div>
         <nav className="flex gap-6 text-sm text-muted-foreground">
-          <a href="#" className="hover:text-foreground transition-colors">О нас</a>
+          <a href="#" className="hover:text-foreground transition-colors">KinTree.kg</a>
           <a href="#" className="hover:text-foreground transition-colors">Конфиденциальность</a>
           <a href="#" className="hover:text-foreground transition-colors">Условия</a>
-          <a href="#" className="hover:text-foreground transition-colors">Контакты</a>
+          <a href="#" className="hover:text-foreground transition-colors">Аида А.</a>
         </nav>
         <p className="text-xs text-muted-foreground">© 2025 KinTree. Все права защищены.</p>
       </div>
