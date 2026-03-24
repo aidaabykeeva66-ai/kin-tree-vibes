@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import dinaraEje from "@/assets/dinara-eje.jpg";
 
 const DetailsSection = () => {
   return (
@@ -6,9 +7,14 @@ const DetailsSection = () => {
       <div className="container grid md:grid-cols-2 gap-16 items-center">
         <div className="bg-card rounded-2xl p-6 shadow-card space-y-4">
           <div className="flex items-start gap-3">
-            <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center shrink-0">
-              <span className="text-lg">👤</span>
-            </div>
+            <img
+              src={dinaraEje}
+              alt="Динара эже"
+              className="w-12 h-12 rounded-full object-cover shrink-0"
+              loading="lazy"
+              width={48}
+              height={48}
+            />
             <div>
               <p className="font-display font-bold text-foreground">Динара эже (Абдуллаева)</p>
               <p className="text-sm text-muted-foreground">1924 — 2009</p>
