@@ -14,7 +14,7 @@ const HeroSection = () => {
           </p>
           <div className="flex flex-wrap gap-4">
             <Button variant="hero" size="lg">Начать бесплатно</Button>
-            <Button variant="hero-outline" size="lg">Посмотреть пример</Button>
+            <Button variant="hero-outline" size="lg" onClick={() => document.getElementById('views')?.scrollIntoView({ behavior: 'smooth' })}>Посмотреть пример</Button>
           </div>
         </div>
         <div className="flex justify-center animate-fade-up" style={{ animationDelay: "0.2s" }}>
