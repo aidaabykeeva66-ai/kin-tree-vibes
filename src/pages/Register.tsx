@@ -26,6 +26,8 @@ const Register = () => {
       toast.error("Пароль должен быть не менее 6 символов");
       return;
     }
+    // Save user to localStorage
+    localStorage.setItem("kintree_user", JSON.stringify({ name: name.trim(), email: email.trim() }));
     toast.success(`Добро пожаловать, ${name}!`);
     navigate("/tree-builder");
   };
