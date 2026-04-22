@@ -173,6 +173,58 @@ const TreeBuilder = () => {
     window.open(`https://t.me/share/url?url=${encodeURIComponent("KinTree")}&text=${encodeURIComponent(text)}`, "_blank");
   };
 
+  // Export tree to PDF (only names, relations, dates — no edit buttons)
+  const exportToPDF = async () => {
+    const node = document.getElementById("tree-pdf-area");
+    if (!node) {
+      toast.error("Не удалось найти дерево");
+      return;
+    }
+    if (!hasTree) {
+      toast.error("Сначала добавьте родственников");
+      return;
+    }
+    toast.info("Готовим PDF...");
+    try {
+      // Hide elements marked with .pdf-hide during capture
+      node.classList.add("exporting-pdf");
+      const canvas = await html2canvas(node, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+      });
+      node.classList.remove("exporting-pdf");
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const imgWidth = pageWidth - 20; // 10mm margins
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 10;
+
+      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight - 20;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight - 20;
+      }
+
+      const selfName = members.find((m) => m.relation === "self")?.name || "tree";
+      pdf.save(`KinTree-${selfName}.pdf`);
+      toast.success("PDF сохранён");
+    } catch (err) {
+      console.error(err);
+      toast.error("Ошибка при создании PDF");
+    }
+  };
+
   // Group members by generation
   const generations = new Map<number, FamilyMember[]>();
   members.forEach((m) => {
