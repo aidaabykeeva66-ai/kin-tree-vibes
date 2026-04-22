@@ -579,7 +579,7 @@ const TreeBuilder = () => {
     resetForm();
     setShowDialog(false);
     toast.success(`${member.name} добавлен(а)`);
-  }, [newName, newRelation, newBirthDate, newDeathDate, newPhoto, newSide, newBiography, newFacts, newLinkedTo, needsLink, linkOptions, addAudit]);
+  }, [newName, newRelation, newBirthDate, newDeathDate, newPhoto, newSide, newBiography, newFacts, newLinkedTo, needsLink, linkOptions, addAudit, members]);
 
   const resetForm = () => {
     setNewName(""); setNewRelation("spouse"); setNewBirthDate(""); setNewDeathDate("");
