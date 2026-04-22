@@ -21,7 +21,7 @@ const HeroSection = () => {
           </div>
         </div>
         <div className="flex justify-center animate-fade-up" style={{ animationDelay: "0.2s" }}>
-          <img src={heroTree} alt="Семейное дерево KinTree" width={500} height={500} className="w-full max-w-md" />
+          <img src={heroTree} alt="Семейное дерево FamilyTree" width={500} height={500} className="w-full max-w-md" />
         </div>
       </div>
     </section>

@@ -39,7 +39,7 @@ const Register = () => {
           <div className="text-center space-y-2">
             <div className="flex items-center justify-center gap-2 mb-4 cursor-pointer" onClick={() => navigate("/")}>
               <TreePine className="h-7 w-7 text-primary" />
-              <span className="font-display font-bold text-2xl text-foreground">KinTree</span>
+              <span className="font-display font-bold text-2xl text-foreground">FamilyTree</span>
             </div>
             <h1 className="text-2xl font-bold font-display text-foreground">Создайте аккаунт</h1>
             <p className="text-sm text-muted-foreground">Начните собирать историю своей семьи</p>

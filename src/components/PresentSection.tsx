@@ -20,7 +20,7 @@ const PresentSection = () => {
         <div className="space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">Будьте рядом в настоящем</h2>
           <p className="text-muted-foreground text-lg">
-            KinTree — это не только про прошлое. Он помогает современной семье оставаться на связи через важные напоминания и близкие людям вещи.
+            FamilyTree — это не только про прошлое. Он помогает современной семье оставаться на связи через важные напоминания и близкие людям вещи.
           </p>
           <ul className="space-y-3">
             <li className="flex items-center gap-3">
