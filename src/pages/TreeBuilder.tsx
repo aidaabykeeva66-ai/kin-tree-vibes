@@ -159,7 +159,7 @@ const TreeBuilder = () => {
       });
       text += "\n";
     });
-    text += "Создано в KinTree 🌿";
+    text += "Создано в FamilyTree 🌿";
     return text;
   };
 
@@ -170,7 +170,7 @@ const TreeBuilder = () => {
 
   const shareViaTelegram = () => {
     const text = buildShareText();
-    window.open(`https://t.me/share/url?url=${encodeURIComponent("KinTree")}&text=${encodeURIComponent(text)}`, "_blank");
+    window.open(`https://t.me/share/url?url=${encodeURIComponent("FamilyTree")}&text=${encodeURIComponent(text)}`, "_blank");
   };
 
   // Export tree to PDF (only names, relations, dates — no edit buttons)
@@ -217,7 +217,7 @@ const TreeBuilder = () => {
       }
 
       const selfName = members.find((m) => m.relation === "self")?.name || "tree";
-      pdf.save(`KinTree-${selfName}.pdf`);
+      pdf.save(`FamilyTree-${selfName}.pdf`);
       toast.success("PDF сохранён");
     } catch (err) {
       console.error(err);
@@ -251,7 +251,7 @@ const TreeBuilder = () => {
         <div className="container flex items-center justify-between h-14">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
             <TreePine className="h-5 w-5 text-primary" />
-            <span className="font-display font-bold text-lg text-foreground">KinTree</span>
+            <span className="font-display font-bold text-lg text-foreground">FamilyTree</span>
           </div>
           <div className="flex items-center gap-2">
             {/* View toggle */}

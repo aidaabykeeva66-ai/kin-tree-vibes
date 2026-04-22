@@ -16,7 +16,7 @@ const Header = () => {
       <div className="container flex items-center justify-between h-16">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
           <TreePine className="h-6 w-6 text-primary" />
-          <span className="font-display font-bold text-xl text-foreground">KinTree</span>
+          <span className="font-display font-bold text-xl text-foreground">FamilyTree</span>
         </div>
         <nav className="hidden md:flex items-center gap-8">
           <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Возможности</a>
