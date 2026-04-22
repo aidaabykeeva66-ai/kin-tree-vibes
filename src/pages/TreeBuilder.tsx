@@ -97,6 +97,23 @@ const TreeBuilder = () => {
       toast.error("Введите имя");
       return;
     }
+    // Prevent duplicates for singleton relations (father, mother, grandparents, spouse)
+    if (UNIQUE_RELATIONS.has(newRelation)) {
+      const exists = members.some((m) => m.relation === newRelation);
+      if (exists) {
+        const label = getRelationLabel(newRelation);
+        toast.error(`${label} уже добавлен(а) в дерево`);
+        return;
+      }
+    }
+    // Prevent exact duplicate (same name + same relation)
+    const duplicate = members.some(
+      (m) => m.relation === newRelation && m.name.trim().toLowerCase() === newName.trim().toLowerCase(),
+    );
+    if (duplicate) {
+      toast.error("Такой родственник уже есть");
+      return;
+    }
     const member: FamilyMember = {
       id: Date.now().toString(),
       name: newName.trim(),
@@ -109,7 +126,7 @@ const TreeBuilder = () => {
     setNewBirthYear("");
     setShowDialog(false);
     toast.success(`${member.name} добавлен(а)`);
-  }, [newName, newRelation, newBirthYear]);
+  }, [newName, newRelation, newBirthYear, members]);
 
   const removeMember = (id: string) => {
     setMembers((prev) => prev.filter((m) => m.id !== id));
