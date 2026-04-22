@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TreePine, Plus, Trash2, Users, Monitor, Smartphone, Share2 } from "lucide-react";
+import { TreePine, Plus, Trash2, Users, Monitor, Smartphone, Share2, Download } from "lucide-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Dialog,
   DialogContent,
@@ -46,6 +48,18 @@ const RELATIONS = [
   { value: "other", label: "Другое" },
 ];
 
+// Relations that can only have ONE entry per tree (singletons)
+const UNIQUE_RELATIONS = new Set([
+  "self",
+  "father",
+  "mother",
+  "grandfather_p",
+  "grandmother_p",
+  "grandfather_m",
+  "grandmother_m",
+  "spouse",
+]);
+
 const getRelationLabel = (value: string) => RELATIONS.find((r) => r.value === value)?.label || value;
 
 const GENERATION_MAP: Record<string, number> = {
@@ -83,6 +97,23 @@ const TreeBuilder = () => {
       toast.error("Введите имя");
       return;
     }
+    // Prevent duplicates for singleton relations (father, mother, grandparents, spouse)
+    if (UNIQUE_RELATIONS.has(newRelation)) {
+      const exists = members.some((m) => m.relation === newRelation);
+      if (exists) {
+        const label = getRelationLabel(newRelation);
+        toast.error(`${label} уже добавлен(а) в дерево`);
+        return;
+      }
+    }
+    // Prevent exact duplicate (same name + same relation)
+    const duplicate = members.some(
+      (m) => m.relation === newRelation && m.name.trim().toLowerCase() === newName.trim().toLowerCase(),
+    );
+    if (duplicate) {
+      toast.error("Такой родственник уже есть");
+      return;
+    }
     const member: FamilyMember = {
       id: Date.now().toString(),
       name: newName.trim(),
@@ -95,7 +126,7 @@ const TreeBuilder = () => {
     setNewBirthYear("");
     setShowDialog(false);
     toast.success(`${member.name} добавлен(а)`);
-  }, [newName, newRelation, newBirthYear]);
+  }, [newName, newRelation, newBirthYear, members]);
 
   const removeMember = (id: string) => {
     setMembers((prev) => prev.filter((m) => m.id !== id));
@@ -140,6 +171,58 @@ const TreeBuilder = () => {
   const shareViaTelegram = () => {
     const text = buildShareText();
     window.open(`https://t.me/share/url?url=${encodeURIComponent("KinTree")}&text=${encodeURIComponent(text)}`, "_blank");
+  };
+
+  // Export tree to PDF (only names, relations, dates — no edit buttons)
+  const exportToPDF = async () => {
+    const node = document.getElementById("tree-pdf-area");
+    if (!node) {
+      toast.error("Не удалось найти дерево");
+      return;
+    }
+    if (!hasTree) {
+      toast.error("Сначала добавьте родственников");
+      return;
+    }
+    toast.info("Готовим PDF...");
+    try {
+      // Hide elements marked with .pdf-hide during capture
+      node.classList.add("exporting-pdf");
+      const canvas = await html2canvas(node, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        logging: false,
+      });
+      node.classList.remove("exporting-pdf");
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const imgWidth = pageWidth - 20; // 10mm margins
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 10;
+
+      pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight - 20;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight + 10;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight - 20;
+      }
+
+      const selfName = members.find((m) => m.relation === "self")?.name || "tree";
+      pdf.save(`KinTree-${selfName}.pdf`);
+      toast.success("PDF сохранён");
+    } catch (err) {
+      console.error(err);
+      toast.error("Ошибка при создании PDF");
+    }
   };
 
   // Group members by generation
@@ -193,6 +276,11 @@ const TreeBuilder = () => {
                 <Share2 className="h-4 w-4 mr-1" /> Поделиться
               </Button>
             )}
+            {hasTree && (
+              <Button variant="outline" size="sm" onClick={exportToPDF}>
+                <Download className="h-4 w-4 mr-1" /> PDF
+              </Button>
+            )}
             <Button variant="hero" size="sm" onClick={() => setShowDialog(true)}>
               <Plus className="h-4 w-4 mr-1" /> Добавить
             </Button>
@@ -202,7 +290,7 @@ const TreeBuilder = () => {
 
       {/* Tree visualization */}
       <main className="container py-8">
-        <div className={treeContainerClass}>
+        <div className={treeContainerClass} id="tree-pdf-area">
           {/* Self name input */}
           {members[0]?.relation === "self" && !members[0].name && (
             <div className="max-w-xs mx-auto mb-8 text-center space-y-3">
@@ -244,7 +332,7 @@ const TreeBuilder = () => {
                         {m.relation !== "self" && (
                           <button
                             onClick={() => removeMember(m.id)}
-                            className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="pdf-hide absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <Trash2 className="h-3 w-3" />
                           </button>
