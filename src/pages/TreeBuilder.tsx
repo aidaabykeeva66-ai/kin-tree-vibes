@@ -290,7 +290,7 @@ const TreeBuilder = () => {
 
       {/* Tree visualization */}
       <main className="container py-8">
-        <div className={treeContainerClass}>
+        <div className={treeContainerClass} id="tree-pdf-area">
           {/* Self name input */}
           {members[0]?.relation === "self" && !members[0].name && (
             <div className="max-w-xs mx-auto mb-8 text-center space-y-3">
@@ -332,7 +332,7 @@ const TreeBuilder = () => {
                         {m.relation !== "self" && (
                           <button
                             onClick={() => removeMember(m.id)}
-                            className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="pdf-hide absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                           >
                             <Trash2 className="h-3 w-3" />
                           </button>
