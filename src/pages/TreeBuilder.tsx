@@ -546,6 +546,16 @@ const TreeBuilder = () => {
 
   const addMember = useCallback(() => {
     if (!newName.trim()) { toast.error("Введите имя"); return; }
+    // Prevent duplicates for singleton relations
+    if (UNIQUE_RELATIONS.has(newRelation) && members.some(m => m.relation === newRelation)) {
+      toast.error(`${getRelationLabel(newRelation)} уже добавлен(а) в дерево`);
+      return;
+    }
+    // Prevent exact duplicate (same name + same relation)
+    if (members.some(m => m.relation === newRelation && m.name.trim().toLowerCase() === newName.trim().toLowerCase())) {
+      toast.error("Такой родственник уже есть");
+      return;
+    }
     if (needsLink && linkOptions.length > 0 && !newLinkedTo) {
       toast.error("Выберите, к кому привязать"); return;
     }
