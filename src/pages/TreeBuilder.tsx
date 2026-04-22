@@ -276,6 +276,11 @@ const TreeBuilder = () => {
                 <Share2 className="h-4 w-4 mr-1" /> Поделиться
               </Button>
             )}
+            {hasTree && (
+              <Button variant="outline" size="sm" onClick={exportToPDF}>
+                <Download className="h-4 w-4 mr-1" /> PDF
+              </Button>
+            )}
             <Button variant="hero" size="sm" onClick={() => setShowDialog(true)}>
               <Plus className="h-4 w-4 mr-1" /> Добавить
             </Button>
