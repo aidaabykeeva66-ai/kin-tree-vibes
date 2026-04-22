@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TreePine, Plus, Trash2, Users, Monitor, Smartphone, Share2 } from "lucide-react";
+import { TreePine, Plus, Trash2, Users, Monitor, Smartphone, Share2, Download } from "lucide-react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Dialog,
   DialogContent,
@@ -45,6 +47,18 @@ const RELATIONS = [
   { value: "spouse", label: "Супруг(а)" },
   { value: "other", label: "Другое" },
 ];
+
+// Relations that can only have ONE entry per tree (singletons)
+const UNIQUE_RELATIONS = new Set([
+  "self",
+  "father",
+  "mother",
+  "grandfather_p",
+  "grandmother_p",
+  "grandfather_m",
+  "grandmother_m",
+  "spouse",
+]);
 
 const getRelationLabel = (value: string) => RELATIONS.find((r) => r.value === value)?.label || value;
 
