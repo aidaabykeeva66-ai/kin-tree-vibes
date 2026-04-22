@@ -19,6 +19,15 @@ import {
   Tooltip, TooltipContent, TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
+// Relations that can only have ONE entry per tree (singletons)
+const UNIQUE_RELATIONS = new Set([
+  "self", "father", "mother",
+  "grandfather_p", "grandmother_p", "grandfather_m", "grandmother_m",
+  "spouse",
+]);
 
 // ─── Types ───
 interface FamilyMember {
