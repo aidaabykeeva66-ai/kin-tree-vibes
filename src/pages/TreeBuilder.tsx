@@ -715,7 +715,7 @@ const TreeBuilder = () => {
 
       {/* Main */}
       <main className="container py-8">
-        <div className={treeContainerClass}>
+        <div className={treeContainerClass} id="tree-pdf-area">
           {!hasSelf && (
             <div className="max-w-sm mx-auto mb-8 text-center space-y-4 py-20">
               <div className="w-20 h-20 rounded-full bg-accent mx-auto flex items-center justify-center">
